@@ -105,7 +105,7 @@ local Library do
         Theme =  { },
         ToClean = { },
 
-        MenuKeybind = tostring(Enum.KeyCode.RightAlt), 
+        MenuKeybind = tostring(Enum.KeyCode.RightControl), 
 
         Flags = { },
 
@@ -2565,7 +2565,7 @@ local Library do
                     Name = "\0",
                     BorderColor3 = FromRGB(0, 0, 0),
                     AnchorPoint = Vector2New(0.5, 0.5),
-                    BackgroundTransparency = 0.12,
+                    BackgroundTransparency = 0,
                     Position = UDim2New(0.5519999861717224, 0, 0.5, 0),
                     Size = UDim2New(0, 677, 0, 644),
                     ZIndex = 2,
@@ -3635,7 +3635,7 @@ local Library do
                 Settings:Keybind({
                     Name = "Menu Keybind",
                     Flag = "MenuBind",
-                    Default = Enum.KeyCode.RightAlt,
+                    Default = Enum.KeyCode.RightControl,
                     Callback = function(Value)
                         Library.MenuKeybind = tostring(Value)
                     end
