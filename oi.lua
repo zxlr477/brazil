@@ -4015,8 +4015,8 @@ local Library do
                 self.WatermarkFrame = Instances:Create("Frame", {
                     Parent = self.Holder.Instance,
                     Name = "Watermark",
-                    AnchorPoint = Vector2New(0, 0),
-                    Position = UDim2New(0, 15, 0, 15),
+                    AnchorPoint = Vector2New(0.5, 0),
+                    Position = UDim2New(0.5, 0, 0, 15),
                     Size = UDim2New(0, 0, 0, 28), 
                     AutomaticSize = Enum.AutomaticSize.X, 
                     BorderSizePixel = 0,
