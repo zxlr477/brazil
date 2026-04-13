@@ -4016,7 +4016,7 @@ local Library do
                     Parent = self.Holder.Instance,
                     Name = "Watermark",
                     AnchorPoint = Vector2New(0.5, 0),
-                    Position = UDim2New(0.5, 0, 0, 15),
+                    Position = UDim2New(0.5, 0, 0, 0),
                     Size = UDim2New(0, 0, 0, 28), 
                     AutomaticSize = Enum.AutomaticSize.X, 
                     BorderSizePixel = 0,
