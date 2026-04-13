@@ -3019,7 +3019,7 @@ local Library do
                         Position = UDim2New(0, 2, 0, 0),
                         BorderColor3 = FromRGB(0, 0, 0),
                         ZIndex = 2,
-                        BackgroundTransparency = 0.12,
+                        BackgroundTransparency = 0,
                         BorderSizePixel = 0,
                         BackgroundColor3 = FromRGB(255, 255, 255)
                     })  Items["___7"]:AddToTheme({BackgroundColor3 = "Background"})   
@@ -3028,7 +3028,7 @@ local Library do
                         Parent = Items["LeftTopPixels"].Instance,
                         Name = "\0",
                         Size = UDim2New(0, 1, 0, 1),
-                        BackgroundTransparency = 0.12,
+                        BackgroundTransparency = 0,
                         Position = UDim2New(0, 3, 0, 0),
                         BorderColor3 = FromRGB(0, 0, 0),
                         ZIndex = 2,
@@ -3041,7 +3041,7 @@ local Library do
                         Name = "\0",
                         Size = UDim2New(0, 1, 0, 1),
                         Position = UDim2New(0, 4, 0, 0),
-                        BackgroundTransparency = 0.12,
+                        BackgroundTransparency = 0,
                         BorderColor3 = FromRGB(0, 0, 0),
                         ZIndex = 2,
                         BorderSizePixel = 0,
@@ -3054,7 +3054,7 @@ local Library do
                         Size = UDim2New(0, 1, 0, 1),
                         Position = UDim2New(0, 5, 0, 0),
                         BorderColor3 = FromRGB(0, 0, 0),
-                        BackgroundTransparency = 0.12,
+                        BackgroundTransparency = 0,
                         ZIndex = 2,
                         BorderSizePixel = 0,
                         BackgroundColor3 = FromRGB(255, 255, 255)
@@ -3067,7 +3067,7 @@ local Library do
                         Position = UDim2New(0, 3, 0, 1),
                         BorderColor3 = FromRGB(0, 0, 0),
                         ZIndex = 2,
-                        BackgroundTransparency = 0.12,
+                        BackgroundTransparency = 0,
                         BorderSizePixel = 0,
                         BackgroundColor3 = FromRGB(255, 255, 255)
                     })  Items["___11"]:AddToTheme({BackgroundColor3 = "Background"})   
@@ -3079,7 +3079,7 @@ local Library do
                         Position = UDim2New(0, 4, 0, 1),
                         BorderColor3 = FromRGB(0, 0, 0),
                         ZIndex = 2,
-                        BackgroundTransparency = 0.12,
+                        BackgroundTransparency = 0,
                         BorderSizePixel = 0,
                         BackgroundColor3 = FromRGB(255, 255, 255)
                     })  Items["___12"]:AddToTheme({BackgroundColor3 = "Background"})                                      
@@ -3608,7 +3608,7 @@ local Library do
 
                 Settings:Slider({
                     Name = "Background Transparency",
-                    Default = 0.12,
+                    Default = 0,
                     Decimals = 0.01,
                     Max = 1,
                     Min = 0,
