@@ -777,10 +777,10 @@ local Library do
             pcall(function() self.UnusedHolder:Clean() end)
         end
 
-        if self.rkFrame then
+        if self.WatermarkFrame then
             pcall(function() 
-                self.rkFrame.Instance:Destroy()
-                self.rkFrame = nil
+                self.WatermarkFrame.Instance:Destroy()
+                self.WatermarkFrame = nil
             end)
         end
 
@@ -4009,176 +4009,180 @@ local Library do
             return setmetatable(Window, Library)
         end
 
-Library.Watermark = function(self, Data)
-    if not self or not self.Holder or not self.Holder.Instance then 
-        return 
-    end
+        Library.Watermark = function(self, Data)
+            if not self or not self.Holder or not self.Holder.Instance or not self.Holder.Instance.Parent then return end
+            if not self.WatermarkFrame then
+                self.WatermarkFrame = Instances:Create("Frame", {
+                    Parent = self.Holder.Instance,
+                    Name = "Watermark",
+                    AnchorPoint = Vector2New(0.5, 0),
+                    Position = UDim2New(0.5, 0, 0, 0),
+                    Size = UDim2New(0, 0, 0, 28), 
+                    AutomaticSize = Enum.AutomaticSize.X, 
+                    BorderSizePixel = 0,
+                    BackgroundColor3 = FromRGB(27, 25, 29),
+                    ZIndex = 10,
+                    Visible = false
+                })
+                self.WatermarkFrame:MakeDraggable()
 
-    if not self.WatermarkFrame then
-        self.WatermarkFrame = Instances:Create("Frame", {
-            Parent = self.Holder.Instance,
-            Name = "Watermark",
-            AnchorPoint = Vector2New(0.5, 0),
-            Position = UDim2New(0.5, 0, 0, 0),        -- Totalmente colado no topo
-            Size = UDim2New(0, 0, 0, 26),             -- altura reduzida para ficar mais limpo
-            AutomaticSize = Enum.AutomaticSize.X,
-            BorderSizePixel = 0,
-            BackgroundColor3 = FromRGB(20, 20, 23),
-            ZIndex = 9999,
-            Visible = true
-        })
+                Instances:Create("UICorner", {
+                    Parent = self.WatermarkFrame.Instance,
+                    CornerRadius = UDimNew(0, 4)
+                })
+                
+                Instances:Create("UIStroke", {
+                    Parent = self.WatermarkFrame.Instance,
+                    Color = FromRGB(0, 0, 0),
+                    Thickness = 1,
+                    Transparency = 0
+                })
+                local AccentLine = Instances:Create("Frame", {
+                    Parent = self.WatermarkFrame.Instance,
+                    Name = "Accent",
+                    Size = UDim2New(1, 0, 0, 2),
+                    Position = UDim2New(0, 0, 0, 0), 
+                    BorderSizePixel = 0,
+                    BackgroundColor3 = FromRGB(255, 255, 255),
+                    ZIndex = 12
+                })
+                
+                Instances:Create("UICorner", {
+                    Parent = AccentLine.Instance,
+                    CornerRadius = UDimNew(0, 4)
+                })
 
-        self.WatermarkFrame:MakeDraggable()
+                local Gradient = Instances:Create("UIGradient", {
+                    Parent = AccentLine.Instance,
+                    Color = RGBSequence{
+                        RGBSequenceKeypoint(0, Library.Theme.Accent), 
+                        RGBSequenceKeypoint(1, Library.Theme.AccentGradient)
+                    }
+                })
+                
+                Gradient:AddToTheme({
+                    Color = function()
+                        return RGBSequence{
+                            RGBSequenceKeypoint(0, Library.Theme.Accent), 
+                            RGBSequenceKeypoint(1, Library.Theme.AccentGradient)
+                        }
+                    end
+                })
 
-        Instances:Create("UICorner", {
-            Parent = self.WatermarkFrame.Instance,
-            CornerRadius = UDimNew(0, 5)
-        })
-
-        -- Borda superior fina
-        Instances:Create("UIStroke", {
-            Parent = self.WatermarkFrame.Instance,
-            Color = FromRGB(0, 0, 0),
-            Thickness = 1,
-            Transparency = 0.8
-        })
-
-        -- Linha de accent no topo (bem fina)
-        local AccentLine = Instances:Create("Frame", {
-            Parent = self.WatermarkFrame.Instance,
-            Name = "Accent",
-            Size = UDim2New(1, 0, 0, 2),
-            Position = UDim2New(0, 0, 0, 0),
-            BorderSizePixel = 0,
-            BackgroundColor3 = FromRGB(255, 255, 255),
-            ZIndex = 10000
-        })
-
-        Instances:Create("UICorner", { Parent = AccentLine.Instance, CornerRadius = UDimNew(0, 5) })
-
-        local Gradient = Instances:Create("UIGradient", {
-            Parent = AccentLine.Instance,
-            Color = RGBSequence{
-                RGBSequenceKeypoint(0, Library.Theme.Accent),
-                RGBSequenceKeypoint(1, Library.Theme.AccentGradient)
-            }
-        })
-
-        Gradient:AddToTheme({
-            Color = function()
-                return RGBSequence{
-                    RGBSequenceKeypoint(0, Library.Theme.Accent),
-                    RGBSequenceKeypoint(1, Library.Theme.AccentGradient)
-                }
-            end
-        })
-
-        -- Conteúdo
-        local Content = Instances:Create("Frame", {
-            Parent = self.WatermarkFrame.Instance,
-            Name = "Content",
-            Size = UDim2New(1, 0, 1, 0),
-            BackgroundTransparency = 1,
-            ZIndex = 9999
-        })
-
-        Instances:Create("UIListLayout", {
-            Parent = Content.Instance,
-            FillDirection = Enum.FillDirection.Horizontal,
-            SortOrder = Enum.SortOrder.LayoutOrder,
-            VerticalAlignment = Enum.VerticalAlignment.Center,
-            Padding = UDimNew(0, 7)
-        })
-
-        Instances:Create("UIPadding", {
-            Parent = Content.Instance,
-            PaddingLeft = UDimNew(0, 12),
-            PaddingRight = UDimNew(0, 12)
-        })
-
-        if self.ToClean then
-            table.insert(self.ToClean, self.WatermarkFrame.Instance)
-        end
-    end
-
-    -- Atualiza o texto/imagens da watermark
-    local ContentFrame = self.WatermarkFrame.Instance:FindFirstChild("Content")
-    if not ContentFrame then return end
-
-    for Index, Value in ipairs(Data or {}) do
-        if Index > 1 then
-            local Sep = ContentFrame:FindFirstChild("Sep_" .. Index)
-            if not Sep then
-                Sep = Instances:Create("TextLabel", {
-                    Parent = ContentFrame,
-                    Name = "Sep_" .. Index,
-                    Text = "|",
-                    TextColor3 = FromRGB(70, 70, 75),
-                    FontFace = Library.Font,
-                    TextSize = 13,
+                local Content = Instances:Create("Frame", {
+                    Parent = self.WatermarkFrame.Instance,
+                    Name = "Content",
+                    Size = UDim2New(1, 0, 1, 0),
                     BackgroundTransparency = 1,
-                    AutomaticSize = Enum.AutomaticSize.XY,
-                    LayoutOrder = (Index * 2) - 1,
-                    ZIndex = 9999
-                }).Instance
+                    ZIndex = 11
+                })
+
+                Instances:Create("UIListLayout", {
+                    Parent = Content.Instance,
+                    FillDirection = Enum.FillDirection.Horizontal,
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                    VerticalAlignment = Enum.VerticalAlignment.Center,
+                    Padding = UDimNew(0, 6)
+                })
+
+                Instances:Create("UIPadding", {
+                    Parent = Content.Instance,
+                    PaddingLeft = UDimNew(0, 10),
+                    PaddingRight = UDimNew(0, 10),
+                    PaddingTop = UDimNew(0, 0) 
+                })
+
+                if self.ToClean then
+                    table.insert(self.ToClean, self.WatermarkFrame.Instance)
+                end
+            end
+
+            local ContentFrame = self.WatermarkFrame.Instance:FindFirstChild("Content")
+            for Index, Value in ipairs(Data) do
+                if Index > 1 then
+                    local SepName = "Sep_" .. Index
+                    local Sep = ContentFrame:FindFirstChild(SepName)
+                    if not Sep then
+                        Sep = Instances:Create("TextLabel", {
+                            Parent = ContentFrame,
+                            Name = SepName,
+                            Text = "|",
+                            TextColor3 = FromRGB(80, 80, 80),
+                            FontFace = Library.Font,
+                            TextSize = 14,
+                            BackgroundTransparency = 1,
+                            AutomaticSize = Enum.AutomaticSize.XY,
+                            LayoutOrder = (Index * 2) - 1,
+                            ZIndex = 11
+                        }).Instance
+                    end
+                end
+
+                local ItemName = "Item_" .. Index
+                local ExistingItem = ContentFrame:FindFirstChild(ItemName)
+                
+                local Type = type(Value)
+                local IsImage = (Type == "number" or (Type == "string" and string.find(Value, "rbxassetid")))
+
+                if ExistingItem then
+                    if IsImage and not ExistingItem:IsA("ImageLabel") then
+                        ExistingItem:Destroy()
+                        ExistingItem = nil
+                    elseif not IsImage and not ExistingItem:IsA("TextLabel") then
+                        ExistingItem:Destroy()
+                        ExistingItem = nil
+                    end
+                end
+
+                if not ExistingItem then
+                    if IsImage then
+                        ExistingItem = Instances:Create("ImageLabel", {
+                            Parent = ContentFrame,
+                            Name = ItemName,
+                            BackgroundTransparency = 1,
+                            Size = UDim2New(0, 14, 0, 14),
+                            ImageColor3 = FromRGB(255, 255, 255),
+                            LayoutOrder = Index * 2,
+                            ZIndex = 11
+                        }).Instance
+                    else
+                        ExistingItem = Instances:Create("TextLabel", {
+                            Parent = ContentFrame,
+                            Name = ItemName,
+                            TextColor3 = FromRGB(240, 240, 240),
+                            FontFace = Library.Font,
+                            TextSize = 13,
+                            BackgroundTransparency = 1,
+                            AutomaticSize = Enum.AutomaticSize.XY,
+                            LayoutOrder = Index * 2,
+                            ZIndex = 11
+                        }).Instance
+                    end
+                end
+
+                if IsImage then
+                    local ImageId = (Type == "number") and "rbxassetid://"..Value or Value
+                    if ExistingItem.Image ~= ImageId then
+                        ExistingItem.Image = ImageId
+                    end
+                else
+                    local TextVal = tostring(Value)
+                    if ExistingItem.Text ~= TextVal then
+                        ExistingItem.Text = TextVal
+                    end
+                end
+            end
+
+            for _, Child in pairs(ContentFrame:GetChildren()) do
+                if Child.Name:find("Item_") or Child.Name:find("Sep_") then
+                    local _, IndexStr = Child.Name:match("(%a+)_(%d+)")
+                    local Index = tonumber(IndexStr)
+                    if Index and Index > #Data then
+                        Child:Destroy()
+                    end
+                end
             end
         end
-
-        local ItemName = "Item_" .. Index
-        local Existing = ContentFrame:FindFirstChild(ItemName)
-
-        local IsImage = (type(Value) == "number") or (type(Value) == "string" and string.find(tostring(Value), "rbxassetid"))
-
-        if Existing then
-            if IsImage and not Existing:IsA("ImageLabel") or not IsImage and not Existing:IsA("TextLabel") then
-                Existing:Destroy()
-                Existing = nil
-            end
-        end
-
-        if not Existing then
-            if IsImage then
-                Existing = Instances:Create("ImageLabel", {
-                    Parent = ContentFrame,
-                    Name = ItemName,
-                    BackgroundTransparency = 1,
-                    Size = UDim2New(0, 15, 0, 15),
-                    ImageColor3 = FromRGB(255, 255, 255),
-                    LayoutOrder = Index * 2,
-                    ZIndex = 9999
-                }).Instance
-            else
-                Existing = Instances:Create("TextLabel", {
-                    Parent = ContentFrame,
-                    Name = ItemName,
-                    TextColor3 = FromRGB(235, 235, 235),
-                    FontFace = Library.Font,
-                    TextSize = 13,
-                    BackgroundTransparency = 1,
-                    AutomaticSize = Enum.AutomaticSize.XY,
-                    LayoutOrder = Index * 2,
-                    ZIndex = 9999
-                }).Instance
-            end
-        end
-
-        if IsImage then
-            Existing.Image = (type(Value) == "number") and ("rbxassetid://" .. Value) or Value
-        else
-            Existing.Text = tostring(Value)
-        end
-    end
-
-    -- Limpa itens antigos
-    for _, Child in pairs(ContentFrame:GetChildren()) do
-        if (Child.Name:find("Item_") or Child.Name:find("Sep_")) then
-            local _, idx = Child.Name:match("(%a+)_(%d+)")
-            if tonumber(idx) and tonumber(idx) > #Data then
-                Child:Destroy()
-            end
-        end
-    end
-end
 
         Library.Category = function(self, Name)
             local Items = { } do 
