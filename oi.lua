@@ -4089,7 +4089,7 @@ local Library do
                     Parent = Content.Instance,
                     PaddingLeft = UDimNew(0, 10),
                     PaddingRight = UDimNew(0, 10),
-                    PaddingTop = UDimNew(0, 4) 
+                    PaddingTop = UDimNew(0, 0) 
                 })
 
                 if self.ToClean then
