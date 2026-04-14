@@ -777,10 +777,10 @@ local Library do
             pcall(function() self.UnusedHolder:Clean() end)
         end
 
-        if self.rkFrame then
+        if self.WatermarkFrame then
             pcall(function() 
-                self.rkFrame.Instance:Destroy()
-                self.rkFrame = nil
+                self.WatermarkFrame.Instance:Destroy()
+                self.WatermarkFrame = nil
             end)
         end
 
@@ -4016,19 +4016,19 @@ local Library do
                     Parent = self.Holder.Instance,
                     Name = "Watermark",
                     AnchorPoint = Vector2New(0.5, 0),
-                    Position = UDim2New(0.5, 0, 0, 4),
+                    Position = UDim2New(0.5, 0, 0, 0),
                     Size = UDim2New(0, 0, 0, 28), 
                     AutomaticSize = Enum.AutomaticSize.X, 
                     BorderSizePixel = 0,
                     BackgroundColor3 = FromRGB(27, 25, 29),
-                    ZIndex = 9999,
+                    ZIndex = 10,
                     Visible = false
                 })
                 self.WatermarkFrame:MakeDraggable()
 
                 Instances:Create("UICorner", {
                     Parent = self.WatermarkFrame.Instance,
-                    CornerRadius = UDimNew(0, 6)
+                    CornerRadius = UDimNew(0, 4)
                 })
                 
                 Instances:Create("UIStroke", {
@@ -4044,12 +4044,12 @@ local Library do
                     Position = UDim2New(0, 0, 0, 0), 
                     BorderSizePixel = 0,
                     BackgroundColor3 = FromRGB(255, 255, 255),
-                    ZIndex = 1000
+                    ZIndex = 12
                 })
                 
                 Instances:Create("UICorner", {
                     Parent = AccentLine.Instance,
-                    CornerRadius = UDimNew(0, 6)
+                    CornerRadius = UDimNew(0, 4)
                 })
 
                 local Gradient = Instances:Create("UIGradient", {
@@ -4074,7 +4074,7 @@ local Library do
                     Name = "Content",
                     Size = UDim2New(1, 0, 1, 0),
                     BackgroundTransparency = 1,
-                    ZIndex = 9999
+                    ZIndex = 11
                 })
 
                 Instances:Create("UIListLayout", {
@@ -4082,13 +4082,13 @@ local Library do
                     FillDirection = Enum.FillDirection.Horizontal,
                     SortOrder = Enum.SortOrder.LayoutOrder,
                     VerticalAlignment = Enum.VerticalAlignment.Center,
-                    Padding = UDimNew(0, 8)
+                    Padding = UDimNew(0, 6)
                 })
 
                 Instances:Create("UIPadding", {
                     Parent = Content.Instance,
-                    PaddingLeft = UDimNew(0, 14),
-                    PaddingRight = UDimNew(0, 14),
+                    PaddingLeft = UDimNew(0, 10),
+                    PaddingRight = UDimNew(0, 10),
                     PaddingTop = UDimNew(0, 0) 
                 })
 
@@ -4098,8 +4098,6 @@ local Library do
             end
 
             local ContentFrame = self.WatermarkFrame.Instance:FindFirstChild("Content")
-            if not ContentFrame then return end
-
             for Index, Value in ipairs(Data) do
                 if Index > 1 then
                     local SepName = "Sep_" .. Index
@@ -4115,7 +4113,7 @@ local Library do
                             BackgroundTransparency = 1,
                             AutomaticSize = Enum.AutomaticSize.XY,
                             LayoutOrder = (Index * 2) - 1,
-                            ZIndex = 9999
+                            ZIndex = 11
                         }).Instance
                     end
                 end
@@ -4142,10 +4140,10 @@ local Library do
                             Parent = ContentFrame,
                             Name = ItemName,
                             BackgroundTransparency = 1,
-                            Size = UDim2New(0, 16, 0, 16),
+                            Size = UDim2New(0, 14, 0, 14),
                             ImageColor3 = FromRGB(255, 255, 255),
                             LayoutOrder = Index * 2,
-                            ZIndex = 9999
+                            ZIndex = 11
                         }).Instance
                     else
                         ExistingItem = Instances:Create("TextLabel", {
@@ -4157,7 +4155,7 @@ local Library do
                             BackgroundTransparency = 1,
                             AutomaticSize = Enum.AutomaticSize.XY,
                             LayoutOrder = Index * 2,
-                            ZIndex = 9999
+                            ZIndex = 11
                         }).Instance
                     end
                 end
