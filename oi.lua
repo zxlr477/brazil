@@ -105,7 +105,7 @@ local Library do
         Theme =  { },
         ToClean = { },
 
-        MenuKeybind = tostring(Enum.KeyCode.RightControl), 
+        MenuKeybind = tostring(Enum.KeyCode.RightAlt), 
 
         Flags = { },
 
@@ -2565,7 +2565,7 @@ local Library do
                     Name = "\0",
                     BorderColor3 = FromRGB(0, 0, 0),
                     AnchorPoint = Vector2New(0.5, 0.5),
-                    BackgroundTransparency = 0,
+                    BackgroundTransparency = 0.12,
                     Position = UDim2New(0.5519999861717224, 0, 0.5, 0),
                     Size = UDim2New(0, 677, 0, 644),
                     ZIndex = 2,
@@ -3019,7 +3019,7 @@ local Library do
                         Position = UDim2New(0, 2, 0, 0),
                         BorderColor3 = FromRGB(0, 0, 0),
                         ZIndex = 2,
-                        BackgroundTransparency = 0,
+                        BackgroundTransparency = 0.12,
                         BorderSizePixel = 0,
                         BackgroundColor3 = FromRGB(255, 255, 255)
                     })  Items["___7"]:AddToTheme({BackgroundColor3 = "Background"})   
@@ -3028,7 +3028,7 @@ local Library do
                         Parent = Items["LeftTopPixels"].Instance,
                         Name = "\0",
                         Size = UDim2New(0, 1, 0, 1),
-                        BackgroundTransparency = 0,
+                        BackgroundTransparency = 0.12,
                         Position = UDim2New(0, 3, 0, 0),
                         BorderColor3 = FromRGB(0, 0, 0),
                         ZIndex = 2,
@@ -3041,7 +3041,7 @@ local Library do
                         Name = "\0",
                         Size = UDim2New(0, 1, 0, 1),
                         Position = UDim2New(0, 4, 0, 0),
-                        BackgroundTransparency = 0,
+                        BackgroundTransparency = 0.12,
                         BorderColor3 = FromRGB(0, 0, 0),
                         ZIndex = 2,
                         BorderSizePixel = 0,
@@ -3054,7 +3054,7 @@ local Library do
                         Size = UDim2New(0, 1, 0, 1),
                         Position = UDim2New(0, 5, 0, 0),
                         BorderColor3 = FromRGB(0, 0, 0),
-                        BackgroundTransparency = 0,
+                        BackgroundTransparency = 0.12,
                         ZIndex = 2,
                         BorderSizePixel = 0,
                         BackgroundColor3 = FromRGB(255, 255, 255)
@@ -3067,7 +3067,7 @@ local Library do
                         Position = UDim2New(0, 3, 0, 1),
                         BorderColor3 = FromRGB(0, 0, 0),
                         ZIndex = 2,
-                        BackgroundTransparency = 0,
+                        BackgroundTransparency = 0.12,
                         BorderSizePixel = 0,
                         BackgroundColor3 = FromRGB(255, 255, 255)
                     })  Items["___11"]:AddToTheme({BackgroundColor3 = "Background"})   
@@ -3079,7 +3079,7 @@ local Library do
                         Position = UDim2New(0, 4, 0, 1),
                         BorderColor3 = FromRGB(0, 0, 0),
                         ZIndex = 2,
-                        BackgroundTransparency = 0,
+                        BackgroundTransparency = 0.12,
                         BorderSizePixel = 0,
                         BackgroundColor3 = FromRGB(255, 255, 255)
                     })  Items["___12"]:AddToTheme({BackgroundColor3 = "Background"})                                      
@@ -3608,7 +3608,7 @@ local Library do
 
                 Settings:Slider({
                     Name = "Background Transparency",
-                    Default = 0,
+                    Default = 0.12,
                     Decimals = 0.01,
                     Max = 1,
                     Min = 0,
@@ -3635,7 +3635,7 @@ local Library do
                 Settings:Keybind({
                     Name = "Menu Keybind",
                     Flag = "MenuBind",
-                    Default = Enum.KeyCode.RightControl,
+                    Default = Enum.KeyCode.RightAlt,
                     Callback = function(Value)
                         Library.MenuKeybind = tostring(Value)
                     end
@@ -4015,8 +4015,8 @@ local Library do
                 self.WatermarkFrame = Instances:Create("Frame", {
                     Parent = self.Holder.Instance,
                     Name = "Watermark",
-                    AnchorPoint = Vector2New(0.5, 0),
-                    Position = UDim2New(0.5, 0, 0, 0),
+                    AnchorPoint = Vector2New(0, 0),
+                    Position = UDim2New(0, 15, 0, 15),
                     Size = UDim2New(0, 0, 0, 28), 
                     AutomaticSize = Enum.AutomaticSize.X, 
                     BorderSizePixel = 0,
@@ -4089,7 +4089,7 @@ local Library do
                     Parent = Content.Instance,
                     PaddingLeft = UDimNew(0, 10),
                     PaddingRight = UDimNew(0, 10),
-                    PaddingTop = UDimNew(0, 0) 
+                    PaddingTop = UDimNew(0, 4) 
                 })
 
                 if self.ToClean then
